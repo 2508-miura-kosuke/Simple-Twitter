@@ -169,6 +169,7 @@ public class UserDao {
     	    }
     	}
 
+      //ユーザー情報更新
       public void update(Connection connection, User user) {
 
     	    log.info(new Object(){}.getClass().getEnclosingClass().getName() +
