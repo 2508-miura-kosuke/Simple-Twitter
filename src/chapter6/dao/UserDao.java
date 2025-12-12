@@ -183,45 +183,31 @@ public class UserDao {
     	    try {
     	        StringBuilder sql = new StringBuilder();
 
-    	        String password = user.getPassword();
-
+    	        sql.append("UPDATE users SET ");
+    	        sql.append("    account = ?, ");
+    	        sql.append("    name = ?, ");
+    	        sql.append("    email = ?, ");
     	        //パスワードの入力があった場合
-    	        if(!StringUtils.isEmpty(password)) {
-	    	        sql.append("UPDATE users SET ");
-	    	        sql.append("    account = ?, ");
-	    	        sql.append("    name = ?, ");
-	    	        sql.append("    email = ?, ");
+    	        if(!StringUtils.isBlank(user.getPassword())) {
 	    	        sql.append("    password = ?, ");
-	    	        sql.append("    description = ?, ");
-	    	        sql.append("    updated_date = CURRENT_TIMESTAMP ");
-	    	        sql.append("WHERE id = ?");
-    	        //パスワードの入力がなかった場合
-    	        } else {
-	    	        sql.append("UPDATE users SET ");
-	    	        sql.append("    account = ?, ");
-	    	        sql.append("    name = ?, ");
-	    	        sql.append("    email = ?, ");
-	    	        sql.append("    description = ?, ");
-	    	        sql.append("    updated_date = CURRENT_TIMESTAMP ");
-	    	        sql.append("WHERE id = ?");
     	        }
+    	        sql.append("    description = ?, ");
+    	        sql.append("    updated_date = CURRENT_TIMESTAMP ");
+    	        sql.append("WHERE id = ?");
 
     	        ps = connection.prepareStatement(sql.toString());
 
     	        //バインド変数(?)に値を入れる
+    	        ps.setString(1, user.getAccount());
+    	        ps.setString(2, user.getName());
+    	        ps.setString(3, user.getEmail());
     	        //パスワードの入力があった場合
-    	        if(!StringUtils.isEmpty(password)) {
-	    	        ps.setString(1, user.getAccount());
-	    	        ps.setString(2, user.getName());
-	    	        ps.setString(3, user.getEmail());
+    	        if(!StringUtils.isBlank(user.getPassword())) {
 	    	        ps.setString(4, user.getPassword());
 	    	        ps.setString(5, user.getDescription());
 	    	        ps.setInt(6, user.getId());
     	        //パスワードの入力がなかった場合
     	        } else {
-	    	        ps.setString(1, user.getAccount());
-	    	        ps.setString(2, user.getName());
-	    	        ps.setString(3, user.getEmail());
 	    	        ps.setString(4, user.getDescription());
 	    	        ps.setInt(5, user.getId());
     	        }

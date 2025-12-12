@@ -121,14 +121,9 @@ public class UserService {
         Connection connection = null;
         try {
             // 実践問題その①
-        	//passwordの変数にuser.getPasswordの戻り値passwordを代入
-        	String password = user.getPassword();
         	//パスワード入力されたら暗号化
         	//パスワード入力されてないなら暗号化しない
-        	if(StringUtils.isEmpty(password)) {
-        		String noencPassword = password;
-        		user.setPassword(noencPassword);
-        	} else {
+        	if(!StringUtils.isBlank(user.getPassword())) {
         		String encPassword = CipherUtil.encrypt(user.getPassword());
         		user.setPassword(encPassword);
         	}
