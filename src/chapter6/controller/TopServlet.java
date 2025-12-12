@@ -32,8 +32,7 @@ public class TopServlet extends HttpServlet {
     public TopServlet() {
         InitApplication application = InitApplication.getInstance();
         application.init();
-
-    }
+	 }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,13 +41,21 @@ public class TopServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+		//セッションからログインユーザを取得
+		//ログインユーザのオブジェクトが取得できた場合はisShowMessageFormにtrueを設定
         boolean isShowMessageForm = false;
         User user = (User) request.getSession().getAttribute("loginUser");
         if (user != null) {
             isShowMessageForm = true;
         }
 
-        List<UserMessage> messages = new MessageService().select();
+        /**
+    	* String型のuser_idの値をrequest.getParameter("user_id")で
+    	* JSPから受け取るように設定
+    	* MessageServiceのselectに引数としてString型のuser_idを追加
+    	*/
+        String userId = request.getParameter("user_id");
+        List<UserMessage> messages = new MessageService().select(userId);
 
         request.setAttribute("messages", messages);
         request.setAttribute("isShowMessageForm", isShowMessageForm);
