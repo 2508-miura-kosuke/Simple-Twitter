@@ -49,7 +49,7 @@ public class TopServlet extends HttpServlet {
             isShowMessageForm = true;
         }
 
-        /**
+        /*
     	* String型のuser_idの値をrequest.getParameter("user_id")で
     	* JSPから受け取るように設定
     	* MessageServiceのselectに引数としてString型のuser_idを追加

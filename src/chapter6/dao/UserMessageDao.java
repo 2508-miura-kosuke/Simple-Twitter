@@ -29,7 +29,6 @@ public class UserMessageDao {
     public UserMessageDao() {
         InitApplication application = InitApplication.getInstance();
         application.init();
-
     }
 
     public List<UserMessage> select(Connection connection, Integer id, int num) {
@@ -42,26 +41,36 @@ public class UserMessageDao {
             StringBuilder sql = new StringBuilder();
 
             //idがnullなら全件取得
-        	//idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
-            if(id = null) {
-            sql.append("SELECT ");
-            sql.append("    messages.id as id, ");
-            sql.append("    messages.text as text, ");
-            sql.append("    messages.user_id as user_id, ");
-            sql.append("    users.account as account, ");
-            sql.append("    users.name as name, ");
-            sql.append("    messages.created_date as created_date ");
-            sql.append("FROM messages ");
-            sql.append("INNER JOIN users ");
-            sql.append("ON messages.user_id = users.id ");
-            sql.append("ORDER BY created_date DESC limit " + num);
-            }
+	        sql.append("SELECT ");
+	        sql.append("    messages.id as id, ");
+	        sql.append("    messages.text as text, ");
+	        sql.append("    messages.user_id as user_id, ");
+	        sql.append("    users.account as account, ");
+	        sql.append("    users.name as name, ");
+	        sql.append("    messages.created_date as created_date ");
+	        sql.append("FROM messages ");
+	        sql.append("INNER JOIN users ");
+	        sql.append("ON messages.user_id = users.id ");
+
+	        //idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
+	        if(id != null) {
+	        	sql.append("WHERE messages.user_id = ? ");
+	        }
+
+	        sql.append("ORDER BY created_date DESC limit " + num);
 
             ps = connection.prepareStatement(sql.toString());
+
+            //idがnull以外なら
+            //バインド変数(?)に値を入れる
+            if(id  != null) {
+            	ps.setInt(1, id);
+            }
 
             //データベースからデータを取得して、rsにデータを格納
             ResultSet rs = ps.executeQuery();
 
+            //ResultSetからUserMessage
             List<UserMessage> messages = toUserMessages(rs);
             return messages;
         } catch (SQLException e) {

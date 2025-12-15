@@ -70,7 +70,7 @@ public class MessageService {
 
           Connection connection = null;
           try {
-        	  connection = getConnection();
+        	  	connection = getConnection();
 				/*
 				* idをnullで初期化
 				* ServletからuserIdの値が渡ってきていたら
@@ -87,14 +87,17 @@ public class MessageService {
 				*/
 				List<UserMessage> messages = new UserMessageDao().select(connection,
 				id, LIMIT_NUM);
+
+				commit(connection);
+
 				return messages;
           } catch (RuntimeException e) {
               rollback(connection);
-  		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+          log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
               throw e;
           } catch (Error e) {
               rollback(connection);
-  		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+          log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
               throw e;
           } finally {
         	  close(connection);
