@@ -63,7 +63,7 @@ public class UserMessageDao {
 
             //idがnull以外なら
             //バインド変数(?)に値を入れる
-            if(id  != null) {
+            if(id != null) {
             	ps.setInt(1, id);
             }
 
