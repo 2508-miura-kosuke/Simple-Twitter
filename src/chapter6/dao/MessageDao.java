@@ -30,6 +30,7 @@ public class MessageDao {
 
     }
 
+    //メッセージのつぶやき機能
     public void insert(Connection connection, Message message) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -62,5 +63,29 @@ public class MessageDao {
         } finally {
             close(ps);
         }
+    }
+
+    //つぶやきの削除
+    public void delete(Connection connection, int messageId) {
+
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+    	 PreparedStatement ps = null;
+    	 try {
+    		 //メッセージテーブルのidを指定してつぶやきを削除
+             String sql = "DELETE FROM messages WHERE id = ?";
+
+             ps = connection.prepareStatement(sql);
+
+             ps.setInt(1, messageId);
+
+             ps.executeUpdate();
+         } catch (SQLException e) {
+ 		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+             throw new SQLRuntimeException(e);
+         } finally {
+             close(ps);
+         }
     }
 }
