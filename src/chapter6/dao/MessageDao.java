@@ -4,7 +4,10 @@ import static chapter6.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +68,59 @@ public class MessageDao {
         }
     }
 
-    //つぶやきの削除
+    //つぶやきの編集画面表示
+    public Message select(Connection connection, int messageId) {
+
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	            " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM messages WHERE id = ?";
+
+            ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, messageId);
+
+            ResultSet rs = ps.executeQuery();
+
+            List <Message> messages = toMessages(rs);
+
+            if (messages.isEmpty()) {
+	            return null;
+	        } else {
+	            return messages.get(0);
+	        }
+	    } catch (SQLException e) {
+		  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+	        throw new SQLRuntimeException(e);
+	    } finally {
+	        close(ps);
+	    }
+    }
+
+    private List<Message> toMessages(ResultSet rs) throws SQLException {
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	          " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+    	List<Message> messages = new ArrayList<Message>();
+        try {
+            while (rs.next()) {
+                Message message = new Message();
+                message.setId(rs.getInt("id"));
+                message.setUserId(rs.getInt("user_id"));
+                message.setText(rs.getString("text"));
+                message.setCreatedDate(rs.getTimestamp("created_date"));
+                message.setUpdatedDate(rs.getTimestamp("updated_date"));
+
+                messages.add(message);
+            }
+            return messages;
+        } finally {
+            close(rs);
+        }
+	}
+
+	//つぶやきの削除
     public void delete(Connection connection, int messageId) {
 
     	log.info(new Object(){}.getClass().getEnclosingClass().getName() +

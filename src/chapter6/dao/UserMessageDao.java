@@ -31,6 +31,7 @@ public class UserMessageDao {
         application.init();
     }
 
+    //特定のユーザーのつぶやき閲覧
     public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +

@@ -38,6 +38,7 @@ public class SettingServlet extends HttpServlet {
 
     }
 
+    //ユーザー情報変更画面表示
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

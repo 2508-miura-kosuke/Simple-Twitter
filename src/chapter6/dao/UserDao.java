@@ -36,6 +36,7 @@ public class UserDao {
 
     }
 
+    //ユーザー登録
     public void insert(Connection connection, User user) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -78,6 +79,8 @@ public class UserDao {
             close(ps);
         }
     }
+
+    //ログイン機能
     public User select(Connection connection, String accountOrEmail, String password) {
 
 
@@ -139,6 +142,7 @@ public class UserDao {
     }
 }
 
+      //ユーザー情報変更
       public User select(Connection connection, int id) {
 
     	    log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -226,6 +230,7 @@ public class UserDao {
     	    }
     	}
 
+      //アカウント重複確認
       /*
        * String型のaccountを引数にもつ、selectメソッドを追加する
        */

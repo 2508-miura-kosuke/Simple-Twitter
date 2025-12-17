@@ -72,8 +72,13 @@
            						<fmt:formatDate value="${message.createdDate}"
            						pattern="yyyy/MM/dd HH:mm:ss" />
    							</div>
-   							<!-- トップ画面につぶやき削除ボタンを追加(ログインしたユーザーのみ) -->
+   							<!-- トップ画面に編集ボタンを追加(ログインしたユーザーのみ) -->
    							<c:if test="${loginUser.id == message.userId}">
+   								<form action="edit" method="get">
+   									<input type="hidden" name= "messageId" value="${message.id}">
+   									<input type="submit" value="編集">
+   								</form>
+   								<!-- トップ画面につぶやき削除ボタンを追加(ログインしたユーザーのみ) -->
         						<form action="deleteMessage" method="post">
         							<input type="hidden" name= "messageId" value="${message.id}">
    									<input type="submit" value="削除">
