@@ -33,7 +33,7 @@ public class MessageService {
         application.init();
 
     }
-
+    //つぶやき機能
     public void insert(Message message) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -129,6 +129,29 @@ public class MessageService {
             close(connection);
         }
     }
+    //つぶやきの編集
+    public void update(Message message) {
+
+		  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		  Connection connection = null;
+		  try {
+			    connection = getConnection();
+			    new MessageDao().update(connection, message);
+			    commit(connection);
+			} catch (RuntimeException e) {
+			    rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			    throw e;
+			} catch (Error e) {
+			    rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			    throw e;
+			} finally {
+			    close(connection);
+			}
+	}
 
     //つぶやき削除
     public void delete(int messageId) {

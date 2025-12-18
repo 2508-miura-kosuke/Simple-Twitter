@@ -15,6 +15,9 @@ import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
+//URLパターンをindex.jspにしているのは
+//「http://localhost8080/SimpleTwitter/｣にアクセスしたときに実行されるため
+//アプリケーションのデフォルトのアクセス先としてindex.jspが設定されている。
 @WebServlet(urlPatterns = { "/index.jsp" })
 public class TopServlet extends HttpServlet {
 
@@ -33,7 +36,7 @@ public class TopServlet extends HttpServlet {
         InitApplication application = InitApplication.getInstance();
         application.init();
 	 }
-
+    //テキストエリアの表示条件
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -48,7 +51,6 @@ public class TopServlet extends HttpServlet {
         if (user != null) {
             isShowMessageForm = true;
         }
-
         /*
     	* String型のuser_idの値をrequest.getParameter("user_id")で
     	* JSPから受け取るように設定

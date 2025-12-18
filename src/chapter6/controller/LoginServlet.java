@@ -31,9 +31,9 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         InitApplication application = InitApplication.getInstance();
         application.init();
-
     }
 
+    //ログイン画面の表示
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -41,9 +41,10 @@ public class LoginServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+	  request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
+    //アカウントかメールアドレスとパスワードを取得してログイン
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -64,6 +65,8 @@ public class LoginServlet extends HttpServlet {
       }
 
       HttpSession session = request.getSession();
+      //loginUserという名前(キー)でUser型の変数user(バリュー：DBから取得したログインユーザーの情報)
+      //セッション領域にセット
       session.setAttribute("loginUser", user);
       response.sendRedirect("./");
   }

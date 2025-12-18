@@ -32,6 +32,7 @@ public class UserService {
 
     }
 
+    //ユーザー登録
     public void insert(User user) {
 
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -58,6 +59,7 @@ public class UserService {
               close(connection);
           }
       }
+    //ログイン
     public User select(String accountOrEmail, String password) {
 
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -85,7 +87,7 @@ public class UserService {
               close(connection);
           }
       }
-
+    //ユーザー情報変更
     public User select(int userId) {
 
 

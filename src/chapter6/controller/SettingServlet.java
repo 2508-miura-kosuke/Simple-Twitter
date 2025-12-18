@@ -55,7 +55,7 @@ public class SettingServlet extends HttpServlet {
         request.getRequestDispatcher("setting.jsp").forward(request, response);
     }
 
-    //ユーザー情報更新
+    //①ユーザー情報更新
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,8 +65,9 @@ public class SettingServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<String> errorMessages = new ArrayList<String>();
-
+        //③リクエストパラメータをUserオブジェクトにセットする。
         User user = getUser(request);
+        //④リクエストパラメータに対するバリデーションを行う。
         if (isValid(user, errorMessages)) {
             try {
                 new UserService().update(user);
@@ -86,7 +87,7 @@ public class SettingServlet extends HttpServlet {
         session.setAttribute("loginUser", user);
         response.sendRedirect("./");
     }
-
+    //②UserクラスのgetUserメソッドを使用。ユーザー登録画面からの入力値(リクエストパラメータ)を取得
     private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
 
@@ -102,7 +103,7 @@ public class SettingServlet extends HttpServlet {
         user.setDescription(request.getParameter("description"));
         return user;
     }
-
+    //⑤isValidメソッドを使用。入力値に対するバリデーションを行います。
     private boolean isValid(User user, List<String> errorMessages) {
 
 

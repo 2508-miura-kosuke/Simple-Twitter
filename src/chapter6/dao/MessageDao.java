@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import chapter6.beans.Message;
+import chapter6.exception.NoRowsUpdatedRuntimeException;
 import chapter6.exception.SQLRuntimeException;
 import chapter6.logging.InitApplication;
 
@@ -118,6 +119,42 @@ public class MessageDao {
         } finally {
             close(rs);
         }
+	}
+
+    //つぶやきの編集更新
+    public void update(Connection connection, Message message) {
+
+    	log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+        PreparedStatement ps = null;
+	    try {
+	        StringBuilder sql = new StringBuilder();
+
+	        sql.append("UPDATE messages SET ");
+	        sql.append("    user_id = ?, ");
+	        sql.append("    text = ? ");
+	        sql.append("WHERE id = ?");
+
+	        ps = connection.prepareStatement(sql.toString());
+
+	        //バインド変数(?)に値を入れる
+	        ps.setInt(1, message.getUserId());
+	        ps.setString(2, message.getText());
+	        ps.setInt(3, message.getId());
+
+	        //SQLを実行
+	        int count = ps.executeUpdate();
+	        if (count == 0) {
+	    		log.log(Level.SEVERE,"更新対象のレコードが存在しません", new NoRowsUpdatedRuntimeException());
+	            throw new NoRowsUpdatedRuntimeException();
+	        }
+	    } catch (SQLException e) {
+		  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+	        throw new SQLRuntimeException(e);
+	    } finally {
+	        close(ps);
+	    }
 	}
 
 	//つぶやきの削除

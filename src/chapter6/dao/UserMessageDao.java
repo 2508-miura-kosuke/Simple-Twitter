@@ -87,10 +87,12 @@ public class UserMessageDao {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
-
+	  	//空のリストを作成
         List<UserMessage> messages = new ArrayList<UserMessage>();
         try {
+        	//next()が次の行が存在するか確認している
             while (rs.next()) {
+            	//new UserMessage()で格納用オブジェクト作成
                 UserMessage message = new UserMessage();
                 message.setId(rs.getInt("id"));
                 message.setText(rs.getString("text"));
@@ -98,7 +100,7 @@ public class UserMessageDao {
                 message.setAccount(rs.getString("account"));
                 message.setName(rs.getString("name"));
                 message.setCreatedDate(rs.getTimestamp("created_date"));
-
+                //データベースから取得し、セットした値をmessagesに追加
                 messages.add(message);
             }
             return messages;

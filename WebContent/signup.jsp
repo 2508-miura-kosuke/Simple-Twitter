@@ -11,7 +11,7 @@
     </head>
     <body>
         <div class="main-contents">
-
+			<!-- c:ifで囲んだ箇所はバリデーションエラーなどを表示するためのエリア-->
             <c:if test="${ not empty errorMessages }">
             <div class="errorMessages">
                     <ul>
@@ -21,11 +21,11 @@
                     </ul>
                 </div>
             </c:if>
-
+			<!-- formで囲んだ箇所は、ユーザーが入力するエリア。登録ボタンを押すと、入力値をパラメータとしてServletへ送信-->
             <form action="signup" method="post"><br />
                 <label for="name">名前</label>
                 <input name="name" id="name" />（名前はあなたの公開プロフィールに表示されます）<br />
-
+				<!--inputタグのname属性で、サーバに送るパラメータに名前をつけている-->
                 <label for="account">アカウント名</label>
                 <input name="account" id="account" /> <br />
 

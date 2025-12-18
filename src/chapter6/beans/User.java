@@ -2,9 +2,11 @@ package chapter6.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-
+//ユーザー登録=usersテーブルに登録する=Userクラスで扱う
 public class User implements Serializable {
 
+	//フィールド変数を定義している。private データ型 フィールド名
+	//フィールド変数はクラス内の変数のこと
 	private int id;
     private String account;
     private String name;
@@ -14,10 +16,14 @@ public class User implements Serializable {
     private Date createdDate;
     private Date updatedDate;
 
+    //フィールドは外部からアクセスできないので、メソッドを介してアクセスしている。
+    //getterはフィールドの値を取り出すメソッド
+    //getter,setterは外部で扱えないといけないため、publicで記述している。
     public int getId() {
         return id;
     }
 
+    //setterはフィールドに値を代入するためのメソッド
     public void setId(int id) {
         this.id = id;
     }

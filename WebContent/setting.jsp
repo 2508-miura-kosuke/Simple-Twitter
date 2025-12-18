@@ -21,8 +21,9 @@
                     </ul>
                 </div>
             </c:if>
-
+			<!-- ユーザー情報編集 -->
             <form action="setting" method="post"><br />
+            	<!-- ユーザーが画面で入力した情報に加えてユーザーID(user_id)もパラメータとしてServletに送る -->
                 <input name="id" value="${user.id}" id="id" type="hidden"/>
 
                 <label for="name">名前</label>

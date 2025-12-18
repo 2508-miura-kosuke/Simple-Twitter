@@ -2,6 +2,7 @@ package chapter6.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+//つぶやきの表示＝usersテーブルとmessagesテーブルから取得＝UserMessageクラス（UserMessage.java）で扱う
 
 public class UserMessage implements Serializable {
 

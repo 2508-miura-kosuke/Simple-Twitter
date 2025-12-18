@@ -37,7 +37,7 @@ public class MessageServlet extends HttpServlet {
         application.init();
 
     }
-
+    //post呼び出しで実行。入力されたつぶやきの情報をログインユーザ情報と合わせてDBに登録
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {

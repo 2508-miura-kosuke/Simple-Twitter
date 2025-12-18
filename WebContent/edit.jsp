@@ -25,12 +25,24 @@
 				        <div class="description"><c:out value="${loginUser.description}" /></div>
     				</div>
 				</c:if>
-				<!-- つぶやきを編集しSservletに送る -->
+				<!-- エラーの場合はメッセージを画面に表示 -->
+				<c:if test="${ not empty errorMessages }">
+    				<div class="errorMessages">
+        				<ul>
+            				<c:forEach items="${errorMessages}" var="errorMessage">
+                				<li><c:out value="${errorMessage}" />
+            				</c:forEach>
+        				</ul>
+    				</div>
+   					<c:remove var="errorMessages" scope="session" />
+				</c:if>
+				<!-- 編集したいつぶやきを表示、つぶやきを編集しSservletに送る -->
 				<form action="edit" method="post">
+					<!-- inputタグで画面に見えない状態でパラメータをServletに送る -->
 					<input type="hidden" name= "messageId" value="${message.id}">
-					<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${message.text}" /></textarea>
+					<textarea name="text" cols="100" rows="5" id="text" class="tweet-box"><c:out value="${message.text}" /></textarea>
+					<input type="submit" value="更新">（140文字まで）
    				</form>
-			<input type="submit" value="更新">（140文字まで）
 			<div class="copyright"> Copyright(c)KOSUKE MIURA</div>
 		</div>
 	</body>

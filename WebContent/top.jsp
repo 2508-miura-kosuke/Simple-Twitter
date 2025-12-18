@@ -11,10 +11,12 @@
         <link href="./css/style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+    	<!-- divで囲っておくと、スタイルシートを適用するときに適用がしやすい。-->
         <div class="main-contents">
             <div class="header">
                 <c:if test="${ empty loginUser }">
         			<a href="login">ログイン</a>
+        			<!-- a要素で囲い、今いるリソースから相対位置で「/signup」というURLにアクセス-->
         			<a href="signup">登録する</a>
    				</c:if>
    				<c:if test="${ not empty loginUser }">
@@ -25,11 +27,14 @@
 			</div>
     			<c:if test="${ not empty loginUser }">
    					 <div class="profile">
+   					 	<!-- c:outタグが画面出力、出力値をvalueに設定-->
+   					 	<!-- セッション領域にあるloginUserのnameに対応するvalueが出力-->
 				        <div class="name"><h2><c:out value="${loginUser.name}" /></h2></div>
 				        <div class="account">@<c:out value="${loginUser.account}" /></div>
 				        <div class="description"><c:out value="${loginUser.description}" /></div>
     				</div>
 				</c:if>
+				<!-- メッセージつぶやき機能-->
 				<c:if test="${ not empty errorMessages }">
     				<div class="errorMessages">
         				<ul>
@@ -42,6 +47,7 @@
 				</c:if>
 
 				<div class="form-area">
+					<!-- TopServletにあるisShowMessageFormがtrueであればログイン状態でテキストエリアを表示-->
     				<c:if test="${ isShowMessageForm }">
         				<form action="message" method="post">
             				いま、どうしてる？<br />
@@ -51,12 +57,13 @@
         				</form>
    					</c:if>
 				</div>
-
+				<!--メッセージを表示-->
 				<div class="messages">
     				<c:forEach items="${messages}" var="message">
         				<div class="message">
             				<div class="account-name">
 				                <span class="account">
+				                	<!-- http://localhost:8080/Chapter6/?user_id=ユーザーIDで各ユーザー毎のつぶやきが表示 -->
 									<a href="./?user_id=<c:out value="${message.userId}"/> ">
 										<c:out value="${message.account}" />
 									 </a>

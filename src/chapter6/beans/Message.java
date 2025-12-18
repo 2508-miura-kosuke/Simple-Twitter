@@ -2,7 +2,7 @@ package chapter6.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-
+//つぶやき登録＝messagesテーブルに登録する=Messageクラスで扱う
 public class Message implements Serializable {
 
     private int id;
