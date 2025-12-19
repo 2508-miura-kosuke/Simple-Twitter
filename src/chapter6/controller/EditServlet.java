@@ -47,32 +47,28 @@ public class EditServlet extends HttpServlet {
 	  //パラメータを取得する
 	  String id = request.getParameter("messageId");
 
-	  //URLのつぶやきのIDが空ならエラーメッセージ
-	  if (StringUtils.isBlank(id)) {
+	  //URLのつぶやきのIDが空か数字以外ならエラーメッセージ
+	  if (StringUtils.isBlank(id) || !id.matches("^[0-9]*$")) {
 		  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
-		  request.getRequestDispatcher("./").forward(request, response);
+		  response.sendRedirect("./");
+		  return;
       }
 
-	  try {
-		  //int型に変換(数字以外が入っていたらcatchに飛ぶ)
-		  int messageId = Integer.parseInt(id);
+	  //int型に変換(数字以外が入っていたらcatchに飛ぶ)
+	  int messageId = Integer.parseInt(id);
 
-	      //MessageServiceのselectメソッドを呼び出す。戻り値あり
-	      Message message = new MessageService().select(messageId);
+      //MessageServiceのselectメソッドを呼び出す。戻り値あり
+      Message message = new MessageService().select(messageId);
 
-	      //URLのIDが存在しないIDならエラーメッセージ
-	      if (message == null) {
-	    	  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
-	    	  request.getRequestDispatcher("./").forward(request, response);
-	      }
-	      //messageという名前でmessageに入ったデータをjspで使えるように渡す
-	      request.setAttribute("message", message);
-
-	  } catch (NumberFormatException e) {
-		  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
-		  request.getRequestDispatcher("./").forward(request, response);
-	  }
-	  request.getRequestDispatcher("edit.jsp").forward(request, response);
+      //URLのIDが存在しないIDならエラーメッセージ
+      if (message == null) {
+    	  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+    	  response.sendRedirect("./");
+    	  return;
+      }
+      //messageという名前でmessageに入ったデータをjspで使えるように渡す
+      request.setAttribute("message", message);
+      request.getRequestDispatcher("edit.jsp").forward(request, response);
     }
 
     //つぶやきの更新、編集されたつぶやきの情報をログインユーザ情報と合わせてDBで更新

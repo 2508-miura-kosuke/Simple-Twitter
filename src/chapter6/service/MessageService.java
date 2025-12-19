@@ -176,7 +176,5 @@ public class MessageService {
         } finally {
             close(connection);
         }
-
-
     }
 }
