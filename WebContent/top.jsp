@@ -73,7 +73,8 @@
 				                </span>
            					</div>
        						<div class="text">
-       							<c:out value="${message.text}" />
+       							<!--pre要素を使用して、ソースコード上に入力されている半角スペースやタブ、改行などがそのまま反映された状態で表示-->
+       							<pre><c:out value="${message.text}" /></pre>
        						</div>
            					<div class="date">
            						<fmt:formatDate value="${message.createdDate}"

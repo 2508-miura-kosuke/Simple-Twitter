@@ -47,14 +47,32 @@ public class EditServlet extends HttpServlet {
 	  //パラメータを取得する
 	  String id = request.getParameter("messageId");
 
-	  //int型に変換
-	  int messageId = Integer.parseInt(id);
+	  //URLのつぶやきのIDが空ならエラーメッセージ
+	  if (StringUtils.isBlank(id)) {
+		  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+		  request.getRequestDispatcher("./").forward(request, response);
+      }
 
-      //MessageServiceのselectメソッドを呼び出す。戻り値あり
-      Message message = new MessageService().select(messageId);
-      //messageという名前でmessageに入ったデータをjspで使えるように渡す
-      request.setAttribute("message", message);
-      request.getRequestDispatcher("edit.jsp").forward(request, response);
+	  try {
+		  //int型に変換(数字以外が入っていたらcatchに飛ぶ)
+		  int messageId = Integer.parseInt(id);
+
+	      //MessageServiceのselectメソッドを呼び出す。戻り値あり
+	      Message message = new MessageService().select(messageId);
+
+	      //URLのIDが存在しないIDならエラーメッセージ
+	      if (message == null) {
+	    	  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+	    	  request.getRequestDispatcher("./").forward(request, response);
+	      }
+	      //messageという名前でmessageに入ったデータをjspで使えるように渡す
+	      request.setAttribute("message", message);
+
+	  } catch (NumberFormatException e) {
+		  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+		  request.getRequestDispatcher("./").forward(request, response);
+	  }
+	  request.getRequestDispatcher("edit.jsp").forward(request, response);
     }
 
     //つぶやきの更新、編集されたつぶやきの情報をログインユーザ情報と合わせてDBで更新
@@ -68,17 +86,23 @@ public class EditServlet extends HttpServlet {
 	  //セッションを使用できるようにします。
 	  HttpSession session = request.getSession();
       List<String> errorMessages = new ArrayList<String>();
-      //edit.jspからtextパラメータを取得して、バリデーションを行う
+
+      //edit.jspからtextパラメータを取得
       String text = request.getParameter("text");
+
+      //messageという変数にtextという値をセット
+      Message message = new Message();
+      message.setText(text);
+      //textのバリデーションを行う
       if (!isValid(text, errorMessages)) {
           session.setAttribute("errorMessages", errorMessages);
+          //セッションにmessageという名前をつけてtextの値をセット
+          session.setAttribute("message", message);
           //エラーの場合はedit.jsp画面に表示
           response.sendRedirect("edit.jsp");
           return;
       }
-      //messageという変数にtextという値をセット
-      Message message = new Message();
-      message.setText(text);
+
       //ログイン情報のパラメータを取得し、userという変数に値を代入
       User user = (User) session.getAttribute("loginUser");
       //現在ログインしているuserのidの値をmessageにセット
@@ -108,19 +132,6 @@ public class EditServlet extends HttpServlet {
       } else if (140 < text.length()) {
           errorMessages.add("140文字以下で入力してください");
       }
-      //URLのつぶやきのIDが数字以外ならエラーメッセージ
-      if () {
-    	  errorMessages.add("不正なパラメータが入力されました");
-      }
-      //URLのつぶやきのIDが存在しないIDならエラーメッセージ
-      if (request.getParameter("messageId")) {
-    	  errorMessages.add("不正なパラメータが入力されました");
-      }
-      //URLのつぶやきのIDが空ならエラーメッセージ
-      if (request.getParameter("messageId") = null) {
-    	  errorMessages.add("不正なパラメータが入力されました");
-      }
-
       if (errorMessages.size() != 0) {
           return false;
       }
