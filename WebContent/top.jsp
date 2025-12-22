@@ -76,9 +76,15 @@
        							<!--pre要素を使用して、ソースコード上に入力されている半角スペースやタブ、改行などがそのまま反映された状態で表示-->
        							<pre><c:out value="${message.text}" /></pre>
        						</div>
+       						<!--メッセージの投稿した日付を表示-->
            					<div class="date">
-           						<fmt:formatDate value="${message.createdDate}"
-           						pattern="yyyy/MM/dd HH:mm:ss" />
+           						<c:if test="${ message.createdDate == message.updatedDate}">
+           						<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+           						</c:if>
+           						<!--メッセージを編集し更新したら更新した日付を表示-->
+           						<c:if test="${ message.createdDate != message.updatedDate}">
+           						<fmt:formatDate value="${message.updatedDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+           						</c:if>
    							</div>
    							<!-- トップ画面に編集ボタンを追加(ログインしたユーザーのみ) -->
    							<c:if test="${loginUser.id == message.userId}">

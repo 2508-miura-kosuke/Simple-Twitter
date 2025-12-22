@@ -48,7 +48,8 @@ public class UserMessageDao {
 	        sql.append("    messages.user_id as user_id, ");
 	        sql.append("    users.account as account, ");
 	        sql.append("    users.name as name, ");
-	        sql.append("    messages.created_date as created_date ");
+	        sql.append("    messages.created_date as created_date, ");
+	        sql.append("    messages.updated_date as updated_date ");
 	        sql.append("FROM messages ");
 	        sql.append("INNER JOIN users ");
 	        sql.append("ON messages.user_id = users.id ");
@@ -100,6 +101,7 @@ public class UserMessageDao {
                 message.setAccount(rs.getString("account"));
                 message.setName(rs.getString("name"));
                 message.setCreatedDate(rs.getTimestamp("created_date"));
+                message.setUpdatedDate(rs.getTimestamp("updated_date"));
                 //データベースから取得し、セットした値をmessagesに追加
                 messages.add(message);
             }

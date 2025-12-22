@@ -44,12 +44,15 @@ public class EditServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+	  //セッションを使用できるようにします。
+	  HttpSession session = request.getSession();
+
 	  //パラメータを取得する
 	  String id = request.getParameter("messageId");
 
 	  //URLのつぶやきのIDが空か数字以外ならエラーメッセージ
 	  if (StringUtils.isBlank(id) || !id.matches("^[0-9]*$")) {
-		  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+		  session.setAttribute("errorMessages", "不正なパラメータが入力されました");
 		  response.sendRedirect("./");
 		  return;
       }
@@ -62,7 +65,7 @@ public class EditServlet extends HttpServlet {
 
       //URLのIDが存在しないIDならエラーメッセージ
       if (message == null) {
-    	  request.setAttribute("errorMessages", "不正なパラメータが入力されました");
+    	  session.setAttribute("errorMessages", "不正なパラメータが入力されました");
     	  response.sendRedirect("./");
     	  return;
       }
