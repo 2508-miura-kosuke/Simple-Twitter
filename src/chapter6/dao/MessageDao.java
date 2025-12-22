@@ -17,7 +17,6 @@ import chapter6.logging.InitApplication;
 
 public class MessageDao {
 
-
     /**
     * ロガーインスタンスの生成
     */

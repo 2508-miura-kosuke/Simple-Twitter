@@ -98,6 +98,18 @@
    									<input type="submit" value="削除">
    								</form>
    							</c:if>
+   							<!--つぶやきの返信内容をServletに送信-->
+   							<c:if test="${not empty loginUser}">
+   								<form action="comment" method="post">
+   									<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+            						<br />
+            						<input type="hidden" name= "messageId" value="${message.id}">
+            						<input type="submit" value="返信">（140文字まで）
+								</form>
+							</c:if>
+							<!--つぶやきの返信を表示-->
+							<!--その投稿に関する返信だけを表示-->
+
       					</div>
     				</c:forEach>
 				</div>
