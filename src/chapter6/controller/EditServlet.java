@@ -95,10 +95,10 @@ public class EditServlet extends HttpServlet {
       //textのバリデーションを行う
       if (!isValid(text, errorMessages)) {
           session.setAttribute("errorMessages", errorMessages);
-          //セッションにmessageという名前をつけてtextの値をセット
+          //セッションにmessageという名前をつけて入力した文字をセット
           session.setAttribute("message", message);
           //エラーの場合はedit.jsp画面に表示
-          response.sendRedirect("edit.jsp");
+          request.getRequestDispatcher("edit.jsp").forward(request, response);
           return;
       }
 
