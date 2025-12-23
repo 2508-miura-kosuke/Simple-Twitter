@@ -53,17 +53,21 @@ public class TopServlet extends HttpServlet {
         if (user != null) {
             isShowMessageForm = true;
         }
+
+        //つぶやきの絞込
+        //パラメータの取得
+        String start =request.getParameter("start");
+        String end = request.getParameter("end");
+
         /*
     	* String型のuser_idの値をrequest.getParameter("user_id")で
     	* JSPから受け取るように設定
     	* MessageServiceのselectに引数としてString型のuser_idを追加
     	*/
         String userId = request.getParameter("user_id");
-        List<UserMessage> messages = new MessageService().select(userId);
+        List<UserMessage> messages = new MessageService().select(userId, start, end);
 
         //つぶやきの返信画面表示
-        //引数は？
-
         //CommentServiceのselectメソッドを呼び出す
         List<UserComment> comments = new CommentService().select();
 
@@ -72,6 +76,4 @@ public class TopServlet extends HttpServlet {
         request.setAttribute("comments", comments);
         request.getRequestDispatcher("/top.jsp").forward(request, response);
     }
-
-
 }

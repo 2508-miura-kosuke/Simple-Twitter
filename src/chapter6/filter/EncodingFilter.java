@@ -30,7 +30,7 @@ public class EncodingFilter implements Filter {
 		chain.doFilter(request, response); // サーブレットを実行
 
 	}
-
+	//アプリケーション起動時にコールされる。パラメータの初期化を行う。
 	@Override
 	public void init(FilterConfig config) {
 		encoding = config.getInitParameter(INIT_PARAMETER_NAME_ENCODING);
@@ -42,9 +42,8 @@ public class EncodingFilter implements Filter {
 					+ ")を利用します。。");
 		}
 	}
-
+	//アプリケーション停止時にコールされる。保持しているインスタンスの破棄などを行う。
 	@Override
 	public void destroy() {
 	}
-
 }

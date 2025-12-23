@@ -11,6 +11,7 @@ public class UserComment implements Serializable {
     private String name;
     private int userId;
     private String text;
+    private int messageId;
     private Date createdDate;
     private Date updatedDate;
 
@@ -52,6 +53,14 @@ public class UserComment implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
     }
 
     public Date getCreatedDate() {

@@ -25,6 +25,10 @@
         			<a href="logout">ログアウト</a>
     			</c:if>
 			</div>
+			日付<br />
+			<form action="index" method="get">
+			<input type=date name=start >～<input type=date name=end >	<input type="submit" value="絞込">
+			</form>
     			<c:if test="${ not empty loginUser }">
    					 <div class="profile">
    					 	<!-- c:outタグが画面出力、出力値をvalueに設定-->
@@ -109,8 +113,19 @@
 							</c:if>
 							<!--つぶやきの返信を表示-->
 							<!--その投稿に関する返信だけを表示-->
-
-      					</div>
+							<div class = "comments">
+								<c:forEach items="${comments}" var="comment">
+									<div class="comment">
+										<c:if test="${comment.messageId == message.id}">
+											<c:out value="${message.account}" />
+											<c:out value="${message.name}" />
+											<pre><c:out value="${comment.text}" /></pre>
+											<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+										</c:if>
+									</div>
+								</c:forEach>
+      						</div>
+  						</div>
     				</c:forEach>
 				</div>
             <div class="copyright"> Copyright(c)KOSUKE MIURA</div>

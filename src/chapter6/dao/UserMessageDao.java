@@ -32,7 +32,7 @@ public class UserMessageDao {
     }
 
     //特定のユーザーのつぶやき閲覧
-    public List<UserMessage> select(Connection connection, Integer id, int num) {
+    public List<UserMessage> select(Connection connection, Integer id, int num, String startDay, String endDay) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -54,19 +54,28 @@ public class UserMessageDao {
 	        sql.append("INNER JOIN users ");
 	        sql.append("ON messages.user_id = users.id ");
 
+	        //つぶやきの絞り込み(between andで範囲指定)
+	        sql.append("WHERE messages.created_date BETWEEN ? AND ? ");
+
 	        //idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
 	        if(id != null) {
-	        	sql.append("WHERE messages.user_id = ? ");
+	        	sql.append("AND messages.user_id = ? ");
 	        }
 
 	        sql.append("ORDER BY created_date DESC limit " + num);
 
             ps = connection.prepareStatement(sql.toString());
 
+            //開始日時をバインド変数に入れる
+            ps.setString(1, startDay);
+
+            //終了日時をバインド変数に入れる
+            ps.setString(2, endDay);
+
             //idがnull以外なら
             //バインド変数(?)に値を入れる
             if(id != null) {
-            	ps.setInt(1, id);
+            	ps.setInt(3, id);
             }
 
             //データベースからデータを取得して、rsにデータを格納

@@ -41,25 +41,26 @@ public class UserCommentDao {
         try {
             StringBuilder sql = new StringBuilder();
 
-            //idがnullなら全件取得
+            //返信の一覧全て取得
 	        sql.append("SELECT ");
-	        sql.append("    messages.id as id, ");
-	        sql.append("    messages.text as text, ");
-	        sql.append("    messages.user_id as user_id, ");
+	        sql.append("    comments.id as id, ");
+	        sql.append("    comments.text as text, ");
+	        sql.append("    comments.user_id as user_id, ");
+	        sql.append("    comments.message_id as message_id, ");
 	        sql.append("    users.account as account, ");
 	        sql.append("    users.name as name, ");
-	        sql.append("    messages.created_date as created_date, ");
-	        sql.append("    messages.updated_date as updated_date ");
-	        sql.append("FROM messages ");
+	        sql.append("    comments.created_date as created_date, ");
+	        sql.append("    comments.updated_date as updated_date ");
+	        sql.append("FROM comments ");
 	        sql.append("INNER JOIN users ");
-	        sql.append("ON messages.user_id = users.id ");
+	        sql.append("ON comments.user_id = users.id ");
 
             ps = connection.prepareStatement(sql.toString());
 
             //データベースからデータを取得して、rsにデータを格納
             ResultSet rs = ps.executeQuery();
 
-            //ResultSetからUserMessage
+            //toUserCommentsメソッドを呼び出す
             List<UserComment> comments = toUserComments(rs);
             return comments;
         } catch (SQLException e) {
@@ -80,11 +81,12 @@ public class UserCommentDao {
         try {
         	//next()が次の行が存在するか確認している
             while (rs.next()) {
-            	//new UserMessage()で格納用オブジェクト作成
+            	//new UserComment()で格納用オブジェクト作成
                 UserComment comment = new UserComment();
                 comment.setId(rs.getInt("id"));
                 comment.setText(rs.getString("text"));
                 comment.setUserId(rs.getInt("user_id"));
+                comment.setMessageId(rs.getInt("message_id"));
                 comment.setAccount(rs.getString("account"));
                 comment.setName(rs.getString("name"));
                 comment.setCreatedDate(rs.getTimestamp("created_date"));
