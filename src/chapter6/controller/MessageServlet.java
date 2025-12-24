@@ -63,7 +63,6 @@ public class MessageServlet extends HttpServlet {
 
         new MessageService().insert(message);
 
-
         response.sendRedirect("./");
     }
 

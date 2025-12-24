@@ -51,13 +51,19 @@ public class CommentServlet extends HttpServlet {
 	  //top.jspからパラメータを取得
 	  String text = request.getParameter("text");
 
+      //返信を行うつぶやきのIDの値がほしい
+      //パラメータを取得する
+	  String sendMessage = request.getParameter("messageId");
+
 	  //textのバリデーションを行う
       if (!isValid(text, errorMessages)) {
-          session.setAttribute("errorMessages", errorMessages);
+          session.setAttribute("sendMessages", errorMessages);
           //セッションにmessageという名前をつけて入力した文字をセット
           session.setAttribute("message", text);
+          //どのつぶやきへの返信かIDをセット
+          session.setAttribute("errorId", sendMessage);
           //エラーの場合はtop.jsp画面に表示
-          request.getRequestDispatcher("./").forward(request, response);
+          response.sendRedirect("./");
           return;
       }
 
@@ -65,15 +71,11 @@ public class CommentServlet extends HttpServlet {
       Comment comment = new Comment();
       comment.setText(text);
 
-	  //利用者IDの値がほしい
+      //利用者IDの値がほしい
       //ログイン情報のパラメータを取得し、userという変数に値を代入
       User user = (User) session.getAttribute("loginUser");
       //現在ログインしているuserのidの値をmessageにセット
       comment.setUserId(user.getId());
-
-      //返信を行うつぶやきのIDの値がほしい
-      //パラメータを取得する
-	  String sendMessage = request.getParameter("messageId");
 
 	  //取得したパラメータをint型に変換
 	  int messageId = Integer.parseInt(sendMessage);
@@ -82,7 +84,7 @@ public class CommentServlet extends HttpServlet {
 
 	  //CommentServiceのinsertメソッドを呼び出す
       new CommentService().insert(comment);
-	  //
+
       response.sendRedirect("./");
     }
 

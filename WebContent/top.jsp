@@ -25,10 +25,10 @@
         			<a href="logout">ログアウト</a>
     			</c:if>
 			</div>
-			日付<br />
-			<form action="index" method="get">
-			<input type=date name=start >～<input type=date name=end >	<input type="submit" value="絞込">
-			</form>
+				日付<br />
+				<form action="./" method="get">
+					<input type="date" name="start" value= "${start}">～<input type="date" name="end"value= "${end}">	<input type="submit" value="絞込">
+				</form>
     			<c:if test="${ not empty loginUser }">
    					 <div class="profile">
    					 	<!-- c:outタグが画面出力、出力値をvalueに設定-->
@@ -82,13 +82,7 @@
        						</div>
        						<!--メッセージの投稿した日付を表示-->
            					<div class="date">
-           						<c:if test="${ message.createdDate == message.updatedDate}">
            						<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
-           						</c:if>
-           						<!--メッセージを編集し更新したら更新した日付を表示-->
-           						<c:if test="${ message.createdDate != message.updatedDate}">
-           						<fmt:formatDate value="${message.updatedDate}" pattern="yyyy/MM/dd HH:mm:ss" />
-           						</c:if>
    							</div>
    							<!-- トップ画面に編集ボタンを追加(ログインしたユーザーのみ) -->
    							<c:if test="${loginUser.id == message.userId}">
@@ -102,6 +96,17 @@
    									<input type="submit" value="削除">
    								</form>
    							</c:if>
+   							<!--つぶやきの返信のエラーメッセージ -->
+   							<c:if test="${ not empty sendMessages and errorId == message.id}">
+			    				<div class="errorMessages">
+			        				<ul>
+			            				<c:forEach items="${sendMessages}" var="sendMessage">
+			                				<li><c:out value="${sendMessage}" />
+			            				</c:forEach>
+			        				</ul>
+			    				</div>
+			   					<c:remove var="sendMessages" scope="session" />
+							</c:if>
    							<!--つぶやきの返信内容をServletに送信-->
    							<c:if test="${not empty loginUser}">
    								<form action="comment" method="post">

@@ -66,10 +66,10 @@ public class UserMessageDao {
 
             ps = connection.prepareStatement(sql.toString());
 
-            //開始日時をバインド変数に入れる
+            //デフォルト値の開始日時をバインド変数に入れる
             ps.setString(1, startDay);
 
-            //終了日時をバインド変数に入れる
+            //デフォルト値の終了日時をバインド変数に入れる
             ps.setString(2, endDay);
 
             //idがnull以外なら

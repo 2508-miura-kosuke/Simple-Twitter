@@ -73,7 +73,6 @@ public class UserCommentDao {
 
     private List<UserComment> toUserComments(ResultSet rs) throws SQLException {
 
-
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 	  	//空のリストを作成

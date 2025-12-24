@@ -19,6 +19,8 @@
                         </c:forEach>
                     </ul>
                 </div>
+                <!-- セッションに残っているエラーメッセージを取り除く-->
+                <c:remove var="errorMessages" scope="session" />
             </c:if>
 
             <form action="login" method="post"><br />

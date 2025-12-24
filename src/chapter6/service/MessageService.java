@@ -83,22 +83,26 @@ public class MessageService {
 					id = Integer.parseInt(userId);
 				}
 
+				//変数を宣言する
+				String startDay;
+		        String endDay;
+
 				//つぶやきの絞込
-				if (start != null) {
-					String startDay = start + " 00:00:00";
+				if (!StringUtils.isEmpty(start)) {
+					startDay = start + " 00:00:00";
 				} else {
 					//デフォルト値
 					//2020/01/01 00:00:00
-					String startDay = "2020/01/01 00:00:00";
+					startDay = "2020/01/01 00:00:00";
 				}
-				if (end != null) {
-					String endDay = end + " 23:59:59";
+				if (!StringUtils.isEmpty(end)) {
+					endDay = end + " 23:59:59";
 				} else {
 					//デフォルト値
 					//現在の日時取得
 					 Date now = new Date();
 					 SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					 String endDay = df.format(now);
+					 endDay = df.format(now);
 				}
 				/*
 				* messageDao.selectに引数としてInteger型のidを追加

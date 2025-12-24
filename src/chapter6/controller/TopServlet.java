@@ -71,6 +71,8 @@ public class TopServlet extends HttpServlet {
         //CommentServiceのselectメソッドを呼び出す
         List<UserComment> comments = new CommentService().select();
 
+        request.setAttribute("start", start);
+        request.setAttribute("end", end);
         request.setAttribute("messages", messages);
         request.setAttribute("isShowMessageForm", isShowMessageForm);
         request.setAttribute("comments", comments);
