@@ -60,24 +60,26 @@ public class CommentService {
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
           " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-          Connection connection = null;
-          try {
-              connection = getConnection();
-              List<UserComment> comments = new UserCommentDao().select(connection);
-              commit(connection);
+  	  final int LIMIT_NUM = 1000;
 
-              return comments;
-          } catch (RuntimeException e) {
-              rollback(connection);
-  		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-              throw e;
-          } catch (Error e) {
-              rollback(connection);
-  		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-              throw e;
-          } finally {
-              close(connection);
-          }
+      Connection connection = null;
+      try {
+          connection = getConnection();
+          List<UserComment> comments = new UserCommentDao().select(connection, LIMIT_NUM);
+          commit(connection);
+
+          return comments;
+      } catch (RuntimeException e) {
+          rollback(connection);
+      log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+          throw e;
+      } catch (Error e) {
+          rollback(connection);
+      log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+          throw e;
+      } finally {
+          close(connection);
       }
+  }
 
 }

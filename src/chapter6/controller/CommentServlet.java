@@ -58,8 +58,6 @@ public class CommentServlet extends HttpServlet {
 	  //textのバリデーションを行う
       if (!isValid(text, errorMessages)) {
           session.setAttribute("sendMessages", errorMessages);
-          //セッションにmessageという名前をつけて入力した文字をセット
-          session.setAttribute("message", text);
           //どのつぶやきへの返信かIDをセット
           session.setAttribute("errorId", sendMessage);
           //エラーの場合はtop.jsp画面に表示

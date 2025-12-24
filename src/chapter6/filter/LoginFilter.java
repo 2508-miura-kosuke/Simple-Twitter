@@ -41,7 +41,7 @@ public class LoginFilter implements Filter {
             errorMessages.add("ログインしてください");
             session.setAttribute("errorMessages", errorMessages);
 			//ログイン画面に遷移
-			httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
+			httpResponse.sendRedirect("./login");
 		}
 	}
 

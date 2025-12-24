@@ -122,8 +122,8 @@
 								<c:forEach items="${comments}" var="comment">
 									<div class="comment">
 										<c:if test="${comment.messageId == message.id}">
-											<c:out value="${message.account}" />
-											<c:out value="${message.name}" />
+											<c:out value="${comment.account}" />
+											<c:out value="${comment.name}" />
 											<pre><c:out value="${comment.text}" /></pre>
 											<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 										</c:if>
